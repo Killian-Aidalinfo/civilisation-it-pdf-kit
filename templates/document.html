@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+  Gabarit par défaut Civilisation IT.
+  1. Copier ce fichier à côté de vos images, le renommer.
+  2. Remplacer le titre de --doc-title (en-tête de chaque page) et de <title>.
+  3. Garder la couverture, remplacer le contenu, supprimer les composants inutiles.
+  4. Rendre : scripts/render.sh mon-document.html
+  Les chemins « kit/… » sont résolus par render.sh : ne pas les modifier.
+-->
+<html lang="fr" style="--doc-title: 'Titre du document'">
+<head>
+  <meta charset="utf-8">
+  <title>Titre du document — Civilisation IT</title>
+  <link rel="stylesheet" href="kit/templates/civilisation-it.css">
+</head>
+<body>
+
+  <!-- ============================== COUVERTURE ============================== -->
+  <section class="couverture">
+    <div class="couverture__marque">
+      <div class="couverture__medaillon"><img src="kit/brand/logo/logo-marine.svg" alt=""></div>
+      CivilisationIT
+    </div>
+
+    <div class="couverture__corps">
+      <span class="surtitre">Type de document</span>
+      <h1>Titre du document, sur deux lignes au plus</h1>
+      <div class="couverture__bandeau"><span>Une phrase qui résume l'enjeu ou la promesse du document.</span></div>
+    </div>
+
+    <!-- Quatre informations au plus. Supprimer celles qui ne servent pas. -->
+    <dl class="couverture__infos">
+      <div><dt>Client</dt><dd>Nom du client</dd></div>
+      <div><dt>Date</dt><dd>19 octobre 2026</dd></div>
+      <div><dt>Version</dt><dd>1.0</dd></div>
+      <div><dt>Auteur</dt><dd>Killian Stein</dd></div>
+    </dl>
+  </section>
+
+  <!-- ============================== CONTENU ============================== -->
+  <main>
+    <span class="surtitre">Sommaire</span>
+    <ol class="sommaire">
+      <li>Contexte</li>
+      <li>Analyse</li>
+      <li>Recommandations</li>
+    </ol>
+
+    <h2>Contexte</h2>
+    <p class="chapeau">Un paragraphe d'introduction un peu plus grand, qui pose le sujet en deux ou trois phrases.</p>
+    <p>Texte courant. Les <strong>mots importants</strong> ressortent en gras, les <a href="https://civilisation-it.fr">liens</a> en bleu pétrole, et le <code>code en ligne</code> sur fond gris.</p>
+
+    <!-- Chiffres clés : 2 à 4 tuiles. -->
+    <div class="chiffres">
+      <div class="chiffre"><span class="chiffre__valeur">99,9 %</span><span class="chiffre__libelle">Disponibilité</span></div>
+      <div class="chiffre"><span class="chiffre__valeur">12</span><span class="chiffre__libelle">Serveurs</span></div>
+      <div class="chiffre"><span class="chiffre__valeur">-35 %</span><span class="chiffre__libelle">Coûts cloud</span></div>
+    </div>
+
+    <h2>Analyse</h2>
+    <h3>Sous-partie</h3>
+    <p>Les cartes reprennent celles de la page d'accueil du site. Pastille : un caractère, couleurs bleu (par défaut), orange, violet, vert, rose.</p>
+    <div class="cartes">
+      <div class="carte"><h4><span class="pastille pastille--orange">1</span>Conteneurisation</h4><p>Description courte de la carte.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--violet">2</span>Sécurité</h4><p>Description courte de la carte.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--vert">3</span>Automatisation</h4><p>Description courte de la carte.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--rose">4</span>Outils</h4><p>Description courte de la carte.</p></div>
+    </div>
+
+    <!-- Tableau : l'en-tête se répète si le tableau passe sur plusieurs pages. -->
+    <table>
+      <thead><tr><th>Élément</th><th>Statut</th><th class="nombre">Montant HT</th></tr></thead>
+      <tbody>
+        <tr><td>Ligne un</td><td><span class="etiquette etiquette--succes">Fait</span></td><td class="nombre">1 200,00 €</td></tr>
+        <tr><td>Ligne deux</td><td><span class="etiquette etiquette--attention">En cours</span></td><td class="nombre">850,00 €</td></tr>
+        <tr><td>Ligne trois</td><td><span class="etiquette etiquette--clair">À venir</span></td><td class="nombre">400,00 €</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2">Total</td><td class="nombre">2 450,00 €</td></tr></tfoot>
+    </table>
+
+    <!-- Encadrés : (défaut = note), --astuce, --attention, --danger, --succes -->
+    <div class="encadre">
+      <span class="encadre__titre">Note</span>
+      <p>Une information à mettre en avant.</p>
+    </div>
+    <div class="encadre encadre--attention">
+      <span class="encadre__titre">Attention</span>
+      <p>Un point de vigilance.</p>
+    </div>
+
+    <pre><code>docker compose up -d</code></pre>
+
+    <h2 class="nouvelle-page">Recommandations</h2>
+    <ol>
+      <li><strong>Première action</strong> : ce qu'il faut faire et pourquoi.</li>
+      <li><strong>Deuxième action</strong> : ce qu'il faut faire et pourquoi.</li>
+    </ol>
+
+    <!-- Bloc de clôture : coordonnées. -->
+    <div class="contact">
+      <img src="kit/brand/logo/logo-blanc.svg" alt="">
+      <div>
+        <strong>Civilisation IT</strong>
+        <p>civilisation-it.fr · Développement, système, réseaux et sécurité</p>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

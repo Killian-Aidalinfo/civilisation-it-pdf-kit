@@ -1,0 +1,66 @@
+/*
+ * Design tokens Civilisation IT — source : civilisation-it.fr (thème Starlight du site)
+ * et la carte de partage og_card.png. Toute couleur ou taille du kit passe par ici.
+ */
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/InterVariable-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: block;
+}
+
+:root {
+  /* Marque */
+  --cit-petrole: #00547b;      /* accent du site en clair : liens, boutons, nom de marque */
+  --cit-bleu: #1971a0;         /* accent du site en sombre */
+  --cit-marine: #14364a;       /* accent fort : titres, aplats */
+  --cit-nuit: #022659;         /* fond de la carte de partage */
+  --cit-roi: #0c3283;          /* bleu roi de la carte de partage */
+  --cit-cyan: #57dffd;         /* bandeau de la carte de partage : touche vive, avec parcimonie */
+  --cit-cyan-pale: #d6fafd;
+  --cit-ciel: #c7dae7;         /* accent doux du site */
+
+  /* Neutres (gris bleutés du site) */
+  --cit-encre: #14191a;
+  --cit-gris-1: #1e292a;
+  --cit-gris-2: #2f3b3c;
+  --cit-gris-3: #4e5b5c;
+  --cit-gris-4: #818f8f;
+  --cit-gris-5: #bcc4c4;
+  --cit-gris-6: #e9efef;
+  --cit-gris-7: #f4f7f7;
+  --cit-blanc: #ffffff;
+
+  /* Couleurs des encadrés (reprises des « asides » Starlight) */
+  --cit-note: #1971a0;
+  --cit-note-fond: #eef5fa;
+  --cit-astuce: #6b3fc4;
+  --cit-astuce-fond: #f3effc;
+  --cit-attention: #b85c00;
+  --cit-attention-fond: #fdf4e9;
+  --cit-danger: #b3261e;
+  --cit-danger-fond: #fcefee;
+  --cit-succes: #1d7a46;
+  --cit-succes-fond: #ebf6ef;
+
+  /* Typographie */
+  --cit-police: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cit-police-mono: ui-monospace, "SFMono-Regular", Menlo, "DejaVu Sans Mono", Consolas, monospace;
+  --cit-taille-texte: 10pt;
+  --cit-interligne: 1.55;
+
+  /* Formes */
+  --cit-rayon: 6px;
+  --cit-rayon-pilule: 999px;
+  --cit-bordure: 1px solid var(--cit-gris-5);
+}

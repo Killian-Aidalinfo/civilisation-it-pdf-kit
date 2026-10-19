@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr" style="--doc-title: 'Robert, agent IA de démonstration'">
+<head>
+  <meta charset="utf-8">
+  <title>Robert, agent IA de démonstration — Civilisation IT</title>
+  <link rel="stylesheet" href="kit/templates/civilisation-it.css">
+</head>
+<body>
+
+  <section class="couverture">
+    <div class="couverture__marque">
+      <div class="couverture__medaillon"><img src="kit/brand/logo/logo-marine.svg" alt=""></div>
+      CivilisationIT
+    </div>
+
+    <div class="couverture__corps">
+      <span class="surtitre">Rapport technique</span>
+      <h1>Robert, l'agent IA de démonstration MAALSI</h1>
+      <div class="couverture__bandeau"><span>Un agent qui gère infrastructure, code et Claude Code en direct, devant les étudiants.</span></div>
+    </div>
+
+    <dl class="couverture__infos">
+      <div><dt>Public</dt><dd>MAALSI · CESI Nancy</dd></div>
+      <div><dt>Date</dt><dd>19 octobre 2026</dd></div>
+      <div><dt>Version</dt><dd>1.0</dd></div>
+      <div><dt>Auteur</dt><dd>Killian Stein</dd></div>
+    </dl>
+  </section>
+
+  <main>
+    <span class="surtitre">Sommaire</span>
+    <ol class="sommaire">
+      <li>Objectif de la démonstration</li>
+      <li>Architecture</li>
+      <li>Outils mis à disposition</li>
+      <li>Sécurité et limites</li>
+    </ol>
+
+    <h2>Objectif de la démonstration</h2>
+    <p class="chapeau">Montrer à de futurs architectes et managers SI ce qu'un agent IA sait réellement faire sur un système d'information, et ce qu'il ne doit pas faire seul.</p>
+    <p>Robert est un <strong>Hermes Agent</strong> branché sur Discord. Il déploie de l'infrastructure, écrit du code, délègue des tâches à <strong>Claude Code</strong> et se souvient de ses conversations. Sa personnalité est fixée par un fichier <code>SOUL.md</code> : toujours joyeux, il annonce ce qu'il fait, le fait, puis le prouve.</p>
+
+    <div class="chiffres">
+      <div class="chiffre"><span class="chiffre__valeur">2</span><span class="chiffre__libelle">Conteneurs Docker</span></div>
+      <div class="chiffre"><span class="chiffre__valeur">286</span><span class="chiffre__libelle">Outils Brevo via MCP</span></div>
+      <div class="chiffre"><span class="chiffre__valeur">3</span><span class="chiffre__libelle">CLI : gh, scw, claude</span></div>
+      <div class="chiffre"><span class="chiffre__valeur">1</span><span class="chiffre__libelle">Mémoire partagée</span></div>
+    </div>
+
+    <h2>Architecture</h2>
+    <p>Tout tourne sur un serveur Scaleway sous Debian 13, avec Docker. La configuration est publique sur GitHub, les secrets restent sur le serveur.</p>
+
+    <div class="cartes">
+      <div class="carte"><h4><span class="pastille">R</span>robert</h4><p>Hermes Agent v0.22.2 et son gateway Discord, dans une image dérivée qui ajoute gh, scw, tmux et Claude Code.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--violet">H</span>robert-hindsight</h4><p>Hindsight 1.0.0 : mémoire long terme auto-hébergée, extraction des faits par gpt-5.6-luna.</p></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Composant</th><th>Rôle</th><th>Version</th></tr></thead>
+      <tbody>
+        <tr><td>Hermes Agent</td><td>Agent et gateway Discord</td><td><span class="etiquette etiquette--clair">0.22.2</span></td></tr>
+        <tr><td>Hindsight</td><td>Mémoire long terme</td><td><span class="etiquette etiquette--clair">1.0.0</span></td></tr>
+        <tr><td>Claude Code</td><td>Délégation des tâches de code</td><td><span class="etiquette etiquette--clair">2.1.303</span></td></tr>
+        <tr><td>GitHub CLI</td><td>Dépôts, issues, pull requests</td><td><span class="etiquette etiquette--clair">2.102.0</span></td></tr>
+        <tr><td>Scaleway CLI</td><td>Ressources cloud</td><td><span class="etiquette etiquette--clair">2.65.1</span></td></tr>
+      </tbody>
+    </table>
+
+    <pre><code>git clone https://github.com/Killian-Aidalinfo/robert.git /srv/robert
+cd /srv/robert && docker compose up -d</code></pre>
+
+    <h2>Outils mis à disposition</h2>
+    <div class="cartes cartes--3">
+      <div class="carte"><h4><span class="pastille pastille--orange">1</span>Infrastructure</h4><p>Docker, CLI Scaleway, terminal Linux complet.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--vert">2</span>Code</h4><p>Claude Code en mode print ou en session tmux, GitHub via gh.</p></div>
+      <div class="carte"><h4><span class="pastille pastille--rose">3</span>Marketing</h4><p>Brevo : contacts, campagnes, emails transactionnels.</p></div>
+    </div>
+
+    <div class="encadre encadre--astuce">
+      <span class="encadre__titre">Pendant la démo</span>
+      <p>Un changement de <code>SOUL.md</code> s'applique à la session suivante : taper <code>/new</code> sur Discord suffit, sans redémarrage.</p>
+    </div>
+
+    <h2>Sécurité et limites</h2>
+    <p>Robert agit avec de vrais accès. Son <code>SOUL.md</code> lui impose de confirmer toute action destructive ou visible publiquement, mais ces garde-fous ne remplacent pas un périmètre maîtrisé.</p>
+
+    <div class="encadre encadre--attention">
+      <span class="encadre__titre">Accès étendus</span>
+      <p>gh et Claude Code utilisent les comptes de l'animateur, et Brevo peut envoyer de vrais emails. Restreindre <code>DISCORD_ALLOWED_USERS</code> aux personnes de confiance avant la séance.</p>
+    </div>
+    <div class="encadre encadre--danger">
+      <span class="encadre__titre">Mémoire partagée</span>
+      <p>Tous les participants partagent la même banque Hindsight : ce qu'un étudiant confie à Robert peut ressortir chez un autre.</p>
+    </div>
+    <div class="encadre encadre--succes">
+      <span class="encadre__titre">Après la démo</span>
+      <p>Révoquer la connexion GitHub CLI et le token Brevo, puis vider la banque de mémoire depuis l'interface Hindsight.</p>
+    </div>
+
+    <div class="contact">
+      <img src="kit/brand/logo/logo-blanc.svg" alt="">
+      <div>
+        <strong>Civilisation IT</strong>
+        <p>civilisation-it.fr · Développement, système, réseaux et sécurité</p>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

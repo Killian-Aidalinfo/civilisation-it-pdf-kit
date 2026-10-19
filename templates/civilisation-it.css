@@ -1,0 +1,436 @@
+/*
+ * Gabarit PDF Civilisation IT — A4, rendu par Chrome/Chromium (scripts/render.sh).
+ *
+ * Le titre courant de l'en-tête vient de la variable --doc-title, posée sur <html> :
+ *   <html lang="fr" style="--doc-title: 'Mon document'">
+ * Chrome ne gère pas string-set : c'est la seule façon fiable de le passer aux marges.
+ */
+
+@import url("../brand/tokens.css");
+
+/* ------------------------------------------------------------------ Pages */
+
+@page {
+  size: A4;
+  margin: 30mm 18mm 22mm 18mm;
+
+  @top-left {
+    content: url("../brand/logo/logo-entete.svg") "  CivilisationIT";
+    font: 700 9pt var(--cit-police);
+    color: var(--cit-petrole);
+    vertical-align: bottom;
+    padding-bottom: 3mm;
+    margin-bottom: 7mm;
+    border-bottom: 0.6pt solid var(--cit-gris-5);
+  }
+  @top-right {
+    content: var(--doc-title, "");
+    font: 500 8pt var(--cit-police);
+    color: var(--cit-gris-3);
+    vertical-align: bottom;
+    padding-bottom: 4mm;
+    margin-bottom: 7mm;
+    border-bottom: 0.6pt solid var(--cit-gris-5);
+  }
+  @bottom-left {
+    content: "civilisation-it.fr";
+    font: 500 8pt var(--cit-police);
+    color: var(--cit-gris-4);
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font: 600 8pt var(--cit-police);
+    color: var(--cit-petrole);
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+}
+
+/* Page de garde : pleine page, sans en-tête ni pied. */
+@page couverture {
+  margin: 0;
+  @top-left { content: none; border: 0; }
+  @top-right { content: none; border: 0; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+/* ------------------------------------------------------------------ Base */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  margin: 0;
+  font-family: var(--cit-police);
+  font-size: var(--cit-taille-texte);
+  line-height: var(--cit-interligne);
+  color: var(--cit-gris-1);
+  font-feature-settings: "cv11", "ss01";
+  hyphens: auto;
+  orphans: 3;
+  widows: 3;
+}
+
+h1, h2, h3, h4 {
+  color: var(--cit-marine);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  break-after: avoid;
+}
+
+h1 { font-size: 22pt; font-weight: 800; margin: 0 0 6mm; }
+h2 {
+  font-size: 15pt;
+  font-weight: 750;
+  margin: 9mm 0 3mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 2pt solid var(--cit-cyan);
+  display: table; /* le soulignement cyan épouse la largeur du titre */
+}
+h3 { font-size: 11.5pt; font-weight: 700; margin: 6mm 0 2mm; color: var(--cit-petrole); }
+h4 { font-size: 10pt; font-weight: 700; margin: 4mm 0 1.5mm; }
+
+p { margin: 0 0 3mm; }
+a { color: var(--cit-petrole); text-decoration: underline; text-underline-offset: 2px; }
+strong { font-weight: 650; color: var(--cit-encre); }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1mm; }
+li::marker { color: var(--cit-petrole); }
+hr { border: 0; border-top: var(--cit-bordure); margin: 6mm 0; }
+
+/* Paragraphe d'introduction */
+.chapeau {
+  font-size: 12pt;
+  line-height: 1.5;
+  color: var(--cit-gris-2);
+  margin-bottom: 6mm;
+}
+
+/* Petit texte au-dessus d'un titre */
+.surtitre {
+  display: block;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cit-petrole);
+  margin-bottom: 1.5mm;
+}
+
+/* Section qui démarre sur une nouvelle page */
+.nouvelle-page { break-before: page; }
+.insecable { break-inside: avoid; }
+
+/* ------------------------------------------------------------------ Couverture */
+
+.couverture {
+  page: couverture;
+  break-after: page;
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20mm 20mm 18mm;
+  color: var(--cit-blanc);
+  background:
+    url("../brand/motif-circuit.svg") repeat 0 0 / 60mm 60mm,
+    radial-gradient(120mm 120mm at 85% 20%, rgba(87, 223, 253, 0.18), transparent 70%),
+    linear-gradient(160deg, var(--cit-roi) 0%, var(--cit-nuit) 55%, #01173a 100%);
+}
+
+.couverture__marque {
+  display: flex;
+  align-items: center;
+  gap: 5mm;
+  font-size: 15pt;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Le logo dans un médaillon blanc, comme sur la carte de partage du site */
+.couverture__medaillon {
+  width: 22mm;
+  height: 22mm;
+  border-radius: 50%;
+  background: var(--cit-blanc);
+  border: 1.2mm solid #296198;
+  display: grid;
+  place-items: center;
+}
+.couverture__medaillon img { width: 15mm; height: 15mm; }
+
+.couverture__corps { margin-top: auto; margin-bottom: auto; }
+
+.couverture .surtitre {
+  display: inline-block;
+  color: var(--cit-nuit);
+  background: var(--cit-cyan);
+  padding: 1.2mm 4mm;
+  border-radius: var(--cit-rayon-pilule);
+  margin-bottom: 7mm;
+}
+
+.couverture h1 {
+  color: var(--cit-blanc);
+  font-size: 34pt;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 7mm;
+  max-width: 155mm;
+}
+
+/* Bandeau incliné, repris de la carte de partage */
+.couverture__bandeau {
+  display: inline-block;
+  max-width: 150mm;
+  font-size: 13pt;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--cit-nuit);
+  background: var(--cit-cyan-pale);
+  padding: 4mm 7mm;
+  transform: skewX(-8deg);
+  margin-left: 2mm;
+}
+.couverture__bandeau > span { display: block; transform: skewX(8deg); }
+
+.couverture__infos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6mm;
+  padding-top: 6mm;
+  border-top: 0.6pt solid rgba(255, 255, 255, 0.35);
+  font-size: 9pt;
+}
+.couverture__infos dt {
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cit-cyan);
+  margin-bottom: 1mm;
+}
+.couverture__infos dd { margin: 0; font-weight: 600; }
+
+/* ------------------------------------------------------------------ Sommaire */
+
+.sommaire { list-style: none; padding: 0; margin: 0 0 8mm; counter-reset: sommaire; }
+.sommaire li {
+  counter-increment: sommaire;
+  display: flex;
+  gap: 4mm;
+  padding: 2.5mm 0;
+  border-bottom: 0.6pt solid var(--cit-gris-6);
+  font-weight: 600;
+  color: var(--cit-marine);
+}
+.sommaire li::before {
+  content: counter(sommaire, decimal-leading-zero);
+  color: var(--cit-petrole);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ Encadrés */
+
+.encadre {
+  break-inside: avoid;
+  border-left: 1.2mm solid var(--cit-note);
+  background: var(--cit-note-fond);
+  border-radius: 0 var(--cit-rayon) var(--cit-rayon) 0;
+  padding: 3.5mm 5mm;
+  margin: 4mm 0;
+}
+.encadre > :last-child { margin-bottom: 0; }
+.encadre__titre {
+  display: block;
+  font-weight: 700;
+  color: var(--cit-note);
+  margin-bottom: 1mm;
+}
+.encadre--astuce { border-color: var(--cit-astuce); background: var(--cit-astuce-fond); }
+.encadre--astuce .encadre__titre { color: var(--cit-astuce); }
+.encadre--attention { border-color: var(--cit-attention); background: var(--cit-attention-fond); }
+.encadre--attention .encadre__titre { color: var(--cit-attention); }
+.encadre--danger { border-color: var(--cit-danger); background: var(--cit-danger-fond); }
+.encadre--danger .encadre__titre { color: var(--cit-danger); }
+.encadre--succes { border-color: var(--cit-succes); background: var(--cit-succes-fond); }
+.encadre--succes .encadre__titre { color: var(--cit-succes); }
+
+/* ------------------------------------------------------------------ Cartes (comme la page d'accueil du site) */
+
+.cartes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4mm;
+  margin: 4mm 0;
+}
+.cartes--3 { grid-template-columns: repeat(3, 1fr); }
+
+.carte {
+  break-inside: avoid;
+  border: var(--cit-bordure);
+  padding: 5mm;
+  background: var(--cit-blanc);
+}
+.carte h4 {
+  display: flex;
+  align-items: center;
+  gap: 2.5mm;
+  margin: 0 0 2mm;
+  font-size: 11pt;
+  color: var(--cit-encre);
+}
+.carte p { margin: 0; color: var(--cit-gris-2); font-size: 9pt; }
+
+/* Pastille colorée devant le titre d'une carte : un caractère ou un chiffre */
+.pastille {
+  flex: none;
+  width: 6.5mm;
+  height: 6.5mm;
+  border-radius: 1.5mm;
+  display: inline-grid;
+  place-items: center;
+  font-size: 8pt;
+  font-weight: 800;
+  color: var(--cit-petrole);
+  background: var(--cit-note-fond);
+  border: 0.6pt solid var(--cit-ciel);
+}
+.pastille--orange { color: var(--cit-attention); background: var(--cit-attention-fond); border-color: #f2cf9e; }
+.pastille--violet { color: var(--cit-astuce); background: var(--cit-astuce-fond); border-color: #d4c4f2; }
+.pastille--vert { color: var(--cit-succes); background: var(--cit-succes-fond); border-color: #b7dfc5; }
+.pastille--rose { color: #b0306a; background: #fcedf4; border-color: #f2bfd6; }
+
+/* ------------------------------------------------------------------ Chiffres clés */
+
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(35mm, 1fr));
+  gap: 4mm;
+  margin: 5mm 0;
+  break-inside: avoid;
+}
+.chiffre {
+  background: var(--cit-gris-7);
+  border-top: 1mm solid var(--cit-petrole);
+  padding: 4mm;
+}
+.chiffre__valeur {
+  display: block;
+  font-size: 20pt;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--cit-marine);
+  font-variant-numeric: tabular-nums;
+}
+.chiffre__libelle { font-size: 8.5pt; color: var(--cit-gris-3); }
+
+/* ------------------------------------------------------------------ Tableaux */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4mm 0 5mm;
+  font-size: 9pt;
+  font-variant-numeric: tabular-nums;
+}
+table { break-inside: avoid; } /* un tableau trop long pour une page se coupe quand même */
+thead { display: table-header-group; } /* l'en-tête se répète sur chaque page */
+tfoot { display: table-row-group; }    /* le total n'apparaît qu'une fois, à la fin */
+tr { break-inside: avoid; }
+th {
+  background: var(--cit-marine);
+  color: var(--cit-blanc);
+  font-weight: 650;
+  text-align: left;
+  padding: 2.2mm 3mm;
+}
+td { padding: 2.2mm 3mm; border-bottom: 0.6pt solid var(--cit-gris-6); vertical-align: top; }
+tbody tr:nth-child(even) td { background: var(--cit-gris-7); }
+td.nombre, th.nombre { text-align: right; }
+tfoot td { font-weight: 700; color: var(--cit-marine); border-top: 1pt solid var(--cit-marine); border-bottom: 0; }
+caption { caption-side: bottom; text-align: left; font-size: 8pt; color: var(--cit-gris-4); padding-top: 2mm; }
+
+/* ------------------------------------------------------------------ Étiquettes */
+
+.etiquette {
+  display: inline-block;
+  font-size: 7.5pt;
+  font-weight: 650;
+  line-height: 1;
+  padding: 1.2mm 2.5mm;
+  border-radius: var(--cit-rayon-pilule);
+  color: var(--cit-blanc);
+  background: var(--cit-petrole);
+  white-space: nowrap;
+}
+.etiquette--clair { color: var(--cit-petrole); background: var(--cit-note-fond); }
+.etiquette--succes { background: var(--cit-succes); }
+.etiquette--attention { background: var(--cit-attention); }
+.etiquette--danger { background: var(--cit-danger); }
+
+/* ------------------------------------------------------------------ Code */
+
+code {
+  font-family: var(--cit-police-mono);
+  font-size: 0.88em;
+  background: var(--cit-gris-6);
+  color: var(--cit-marine);
+  padding: 0.2mm 1.2mm;
+  border-radius: 1mm;
+}
+pre {
+  break-inside: avoid;
+  font-family: var(--cit-police-mono);
+  font-size: 8.3pt;
+  line-height: 1.5;
+  background: #0f1d26;
+  color: #dfeaf0;
+  padding: 4mm 5mm;
+  border-radius: var(--cit-rayon);
+  border-left: 1mm solid var(--cit-cyan);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 4mm 0;
+}
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+/* ------------------------------------------------------------------ Figures et colonnes */
+
+figure { margin: 5mm 0; break-inside: avoid; }
+figure img { max-width: 100%; border-radius: var(--cit-rayon); border: var(--cit-bordure); }
+figcaption { font-size: 8pt; color: var(--cit-gris-4); margin-top: 2mm; }
+
+.colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+
+/* ------------------------------------------------------------------ Bloc de clôture */
+
+.contact {
+  break-inside: avoid;
+  margin-top: 10mm;
+  padding: 6mm 7mm;
+  border-radius: var(--cit-rayon);
+  color: var(--cit-blanc);
+  background:
+    url("../brand/motif-circuit.svg") repeat 0 0 / 45mm 45mm,
+    linear-gradient(135deg, var(--cit-marine), var(--cit-nuit));
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+}
+.contact img { width: 14mm; height: 14mm; flex: none; }
+.contact strong { color: var(--cit-blanc); font-size: 12pt; display: block; }
+.contact p { margin: 0; color: var(--cit-cyan-pale); font-size: 9pt; }
+
+.signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin-top: 10mm; break-inside: avoid; }
+.signature { border-top: 0.6pt solid var(--cit-gris-4); padding-top: 2mm; min-height: 28mm; font-size: 9pt; color: var(--cit-gris-3); }
